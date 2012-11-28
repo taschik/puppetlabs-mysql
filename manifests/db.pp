@@ -44,6 +44,12 @@ define mysql::db (
   $ensure      = 'present'
 ) {
 
+  file { "/root/.db_${title}.cnf":
+    content => template("mysql/database.cnf.pass.erb"),
+    ensure  => present,
+    mode    => '0400',
+  }
+
   validate_re($ensure, '^(present|absent)$',
   "${ensure} is not supported for ensure. Allowed values are 'present' and 'absent'.")
 

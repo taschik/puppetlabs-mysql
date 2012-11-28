@@ -97,7 +97,7 @@ class mysql::config(
     exec { 'set_mysql_rootpw':
       command   => "mysqladmin -u root ${old_pw} password '${root_password}'",
       logoutput => true,
-      unless    => "mysqladmin -u root -p'${root_password}' status > /dev/null",
+      unless    => "mysqladmin -u root -p'${::mysql_root_pw}' status > /dev/null",
       path      => '/usr/local/sbin:/usr/bin:/usr/local/bin',
       notify    => $restart ? {
         true => Exec['mysqld-restart'],
@@ -109,6 +109,7 @@ class mysql::config(
     file { '/root/.my.cnf':
       content => template('mysql/my.cnf.pass.erb'),
       require => Exec['set_mysql_rootpw'],
+      replace => false,
     }
 
     if $etc_root_password {
@@ -120,6 +121,7 @@ class mysql::config(
   } else {
     file { '/root/.my.cnf':
       ensure  => present,
+      replace => false,
     }
   }
 
