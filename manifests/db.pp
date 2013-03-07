@@ -70,7 +70,7 @@ define mysql::db (
 
   ensure_resource('database_user', "${user}@${host}", { ensure        => $ensure,
                                                         password_hash => mysql_password($password),
-                                                        provider      => 'mysql'
+                                                        # provider      => 'mysql'
                                                       })
 
   if $ensure == 'present' {
