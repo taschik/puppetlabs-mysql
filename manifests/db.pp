@@ -35,7 +35,7 @@
 #
 define mysql::db (
   $user,
-  $password,
+  $database_password,
   $charset     = 'utf8',
   $host        = 'localhost',
   $grant       = 'all',
@@ -43,7 +43,14 @@ define mysql::db (
   $enforce_sql = false,
   $ensure      = 'present'
 ) {
-
+  $fact_password = "${::$title}"
+  
+  if $fact_password {
+    $password = $fact_password
+  }
+  else {
+    $password = $database_password
+  }
   file { "/root/.db_${title}.cnf":
     content => template("mysql/database.cnf.pass.erb"),
     ensure  => present,
