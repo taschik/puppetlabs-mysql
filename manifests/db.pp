@@ -43,14 +43,14 @@ define mysql::db (
   $enforce_sql = false,
   $ensure      = 'present'
 ) {
-  $fact_password = getvar("::{$title}")
 
-  if $fact_password {
-    $password = $fact_password
-  }
+
+  if $title == "platform" {
+    $password = $::platform  }
   else {
     $password = $database_password
   }
+  
   file { "/root/.db_${title}.cnf":
     content => template("mysql/database.cnf.pass.erb"),
     ensure  => present,
