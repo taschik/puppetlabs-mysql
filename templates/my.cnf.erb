@@ -1,52 +1,64 @@
 [client]
-port    = <%= port %>
-socket    = <%= socket %>
+port                    = <%= port %>
+socket                  = <%= socket %>
 [mysqld_safe]
-socket    = <%= socket %>
-nice    = 0
+socket                  = <%= socket %>
+nice                    = 0
 <% if log_error == 'syslog' -%>
 syslog
 <% end -%>
 [mysqld]
-user    = mysql
-pid-file  = <%= pidfile %>
-socket    = <%= socket %>
-port      = <%= port %>
-basedir   = <%= basedir %>
-datadir   = <%= datadir %>
-tmpdir    = /tmp
+user                    = mysql
+pid-file                = <%= pidfile %>
+socket                  = <%= socket %>
+port                    = <%= port %>
+basedir                 = <%= basedir %>
+datadir                 = <%= datadir %>
+tmpdir                  = /tmp
+language                = /usr/share/mysql/english
 skip-external-locking
 
-<% if bind_address %>
-bind-address    = <%= bind_address %>
-<% end %> 
+slow_query_log
+slow_query_log_file     = /var/log/mysql/mysql-slow.log
+long_query_time         = 3
+log-queries-not-using-indexes
 
-key_buffer         = 16M
-max_allowed_packet = 16M
-thread_stack       = 192K
-thread_cache_size  = 8
-myisam-recover     = BACKUP
-query_cache_limit  = 1M
-query_cache_size   = 16M
+<% if bind_address %>
+bind-address            = <%= bind_address %>
+<% end %> 
+max_connections         = 250
+wait_timeout            = 31536000
+character-set-server    = utf8
+collation-server        = utf8_general_ci
+key_buffer              = 16M
+max_allowed_packet      = 16M
+thread_stack            = 128K
+myisam-recover          = BACKUP
+query_cache_limit       = <%= mysql_query_cache_limit %>
+query_cache_size        = <%= mysql_query_cache_size %> 
 <% if log_error != 'syslog' -%>
-log_error          = <%= log_error %>
+log_error               = <%= log_error %>
 <% end -%>
-expire_logs_days   = 10
-max_binlog_size    = 100M
+expire_logs_days        = 10
+max_binlog_size         = 100M
 <% if default_engine != 'UNSET' %>
-default-storage-engine = <%= default_engine %>
+default-storage-engine  = <%= default_engine %>
+<% end %>
+<% if default_engine == 'innodb'%>
+key_buffer              = 32M
+innodb_buffer_pool_size = <% if @mysql_innodb_buffer_pool_size then %><%= @mysql_innodb_buffer_pool_size %><% else %> 16M <% end %>
+innodb_file_per_table
+innodb_max_dirty_pages_pct = <% if @mysql_innodb_max_dirty_pages_pct then %><%= @mysql_innodb_max_dirty_pages_pct %><% else %> 30 <% end %>
+thread_cache_size       = <% if @mysql_thread_cache_size then %><%= @mysql_thread_cache_size %><% else %> 100 <% end %>
+table_cache             = <% if @mysql_table_cache then %><%= @mysql_table_cache %><% else %> 1000 <% end %>
+open_files_limit        = <% if @mysql_open_files_limit then %><%= @mysql_open_files_limit %><% else %> 2000 <% end %>
+innodb_log_file_size    = <% if @mysql_innodb_log_file_size then %><%= @mysql_innodb_log_file_size %><% else %> 5MB <% end %>
+innodb_log_buffer_size  = <% if @mysql_innodb_log_buffer_size then %><%= @mysql_innodb_log_buffer_size %><% else %> 2MB <% end %>
+innodb_thread_concurrency = <% if @mysql_innodb_thread_concurrency then %><%= @mysql_innodb_thread_concurrency %><% else %> 20 <% end %>
 <% end %>
 <% if ssl == true %>
-ssl-ca    = <%= ssl_ca %>
-ssl-cert  = <%= ssl_cert %>
-ssl-key   = <%= ssl_key %>
+ssl-ca                  = <%= ssl_ca %>
+ssl-cert                = <%= ssl_cert %>
+ssl-key                 = <%= ssl_key %>
 <% end %>
-
-[mysqldump]
-quick
-quote-names
-max_allowed_packet = 16M
-[mysql]
-[isamchk]
-key_buffer    = 16M
 !includedir /etc/mysql/conf.d/
