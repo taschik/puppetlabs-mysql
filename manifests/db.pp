@@ -63,7 +63,7 @@ define mysql::db (
   database { $name:
     ensure   => $ensure,
     charset  => $charset,
-    provider => 'mysql',
+    # provider => 'mysql',
     require  => Class['mysql::server'],
     before   => Database_user["${user}@${host}"],
   }
@@ -76,7 +76,7 @@ define mysql::db (
   if $ensure == 'present' {
     database_grant { "${user}@${host}/${name}":
       privileges => $grant,
-      provider   => 'mysql',
+      # provider   => 'mysql',
       require    => Database_user["${user}@${host}"],
     }
 
