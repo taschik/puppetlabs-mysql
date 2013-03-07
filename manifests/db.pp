@@ -44,7 +44,7 @@ define mysql::db (
   $ensure      = 'present'
 ) {
   $fact_password = getvar("::{$title}")
-  
+
   if $fact_password {
     $password = $fact_password
   }
