@@ -76,7 +76,7 @@ define mysql::db (
 # =======
   $user_resource = { ensure        => $ensure,
                      password_hash => mysql_password($password),
-                     provider      => 'mysql'
+                     # provider      => 'mysql'
                    }
   ensure_resource('database_user', "${user}@${host}", $user_resource)
 # >>>>>>> upstream/master
