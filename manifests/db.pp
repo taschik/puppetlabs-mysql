@@ -68,10 +68,18 @@ define mysql::db (
     before   => Database_user["${user}@${host}"],
   }
 
-  ensure_resource('database_user', "${user}@${host}", { ensure        => $ensure,
-                                                        password_hash => mysql_password($password),
-                                                        # provider      => 'mysql'
-                                                      })
+# <<<<<<< HEAD
+#   ensure_resource('database_user', "${user}@${host}", { ensure        => $ensure,
+#                                                         password_hash => mysql_password($password),
+#                                                         # provider      => 'mysql'
+#                                                       })
+# =======
+  $user_resource = { ensure        => $ensure,
+                     password_hash => mysql_password($password),
+                     provider      => 'mysql'
+                   }
+  ensure_resource('database_user', "${user}@${host}", $user_resource)
+# >>>>>>> upstream/master
 
   if $ensure == 'present' {
     database_grant { "${user}@${host}/${name}":
