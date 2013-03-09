@@ -47,12 +47,12 @@ define mysql::db (
 
   if $title == "platform" {
     $password = $::platform }
-  else if $title == "academic"{
+  elsif $title == "academic" {
     $passwprd = $::academic }
   else {
     $password = $database_password
   }
-  
+
   file { "/root/.db_${title}.cnf":
     content => template("mysql/database.cnf.pass.erb"),
     ensure  => present,
@@ -77,9 +77,9 @@ define mysql::db (
 #                                                       })
 # =======
   $user_resource = { ensure        => $ensure,
-                     password_hash => mysql_password($password),
-                     # provider      => 'mysql'
-                   }
+    password_hash => mysql_password($password),
+    # provider      => 'mysql'
+  }
   ensure_resource('database_user', "${user}@${host}", $user_resource)
 # >>>>>>> upstream/master
 
