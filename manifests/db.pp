@@ -48,7 +48,7 @@ define mysql::db (
   if $title == "platform" {
     $password = $::platform }
   elsif $title == "academic" {
-    $passwprd = $::academic }
+    $password = $::academic }
   else {
     $password = $database_password
   }
