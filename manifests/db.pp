@@ -51,6 +51,8 @@ define mysql::db (
     $password = $::academic }
   elsif $title == 'test2'{
       $password = $::test2 }
+  elsif $title == 'pige'{
+      $password = $::pige }
   else {
     $password = $database_password
   }
