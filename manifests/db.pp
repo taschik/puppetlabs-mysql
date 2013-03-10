@@ -49,7 +49,7 @@ define mysql::db (
     $password = $::platform }
   elsif $title == 'academic' {
     $password = $::academic }
-    elif $title == 'test2'{
+  elsif $title == 'test2'{
       $password = $::test2 }
   else {
     $password = $database_password
