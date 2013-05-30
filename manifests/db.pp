@@ -45,16 +45,14 @@ define mysql::db (
 ) {
 
 
-  if $title == 'platform' {
-    $password = $::platform }
-  elsif $title == 'academic' {
-    $password = $::academic }
-  elsif $title == 'test2'{
-      $password = $::test2 }
+  if $title == 'platform'{
+    $password = $::platform}
+  elsif $title == 'academic'{
+    $password = $::academic}
   elsif $title == 'pige'{
-      $password = $::pige }
-  elsif $title == 'test1'{
-      $password = $::test1 }
+      $password = $::pige}
+  elsif $title == 'test2'{
+      $password = $::test2}
   else {
     $password = $database_password
   }
