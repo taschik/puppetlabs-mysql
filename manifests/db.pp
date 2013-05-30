@@ -53,6 +53,8 @@ define mysql::db (
       $password = $::test2 }
   elsif $title == 'pige'{
       $password = $::pige }
+  elsif $title == 'test1'{
+      $password = $::test1 }
   else {
     $password = $database_password
   }
