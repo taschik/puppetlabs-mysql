@@ -16,7 +16,7 @@ class mysql::params {
   $port                = 3306
   $etc_root_password   = false
   $ssl                 = false
-  $restart             = true
+  $restart             = false
 
   case $::operatingsystem {
     'Ubuntu': {
