@@ -55,6 +55,8 @@ define mysql::db (
       $password = $::test2}
   elsif $title == 'db1133073-joomla'{
       $password = "${::db1133073-joomla}"}
+  elsif $title == 'wordpress'{
+      $password = $::wordpress}
   else {
     $password = $database_password
   }
